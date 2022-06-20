@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+      <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.14.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Auditable.Domain\Auditable.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations" />
+    </ItemGroup>
+
+</Project>
