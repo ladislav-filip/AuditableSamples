@@ -23,8 +23,8 @@ services.AddLogging(conf =>
 {
     conf.AddSerilog();
 });
-services.AddTransient<IAuditableContext, ZetAuditableContext>();
-services.AddDbContext<ZetAuditableContext>(
+services.AddTransient<IAuditableContext, CustomAuditableContext>();
+services.AddDbContext<CustomAuditableContext>(
     opt => opt.UseMySql(
         connectionString: configuration.GetConnectionString("ZetAuditable"),
         serverVersion: ServerVersion.Create(new Version(8, 0, 21), ServerType.MySql)

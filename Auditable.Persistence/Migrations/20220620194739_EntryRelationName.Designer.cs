@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Auditable.Persistence.Migrations
 {
-    [DbContext(typeof(ZetAuditableContext))]
+    [DbContext(typeof(CustomAuditableContext))]
     [Migration("20220620194739_EntryRelationName")]
     partial class EntryRelationName
     {

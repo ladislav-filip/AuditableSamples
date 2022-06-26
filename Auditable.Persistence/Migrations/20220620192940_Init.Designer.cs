@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Auditable.Persistence.Migrations
 {
-    [DbContext(typeof(ZetAuditableContext))]
+    [DbContext(typeof(CustomAuditableContext))]
     [Migration("20220620192940_Init")]
     partial class Init
     {

@@ -33,6 +33,7 @@ public class Start
         _context.SaveChanges();
 
         _logger.LogInformation("Finnish");
+        Console.ReadKey();
     }
 
     private void AddNew()

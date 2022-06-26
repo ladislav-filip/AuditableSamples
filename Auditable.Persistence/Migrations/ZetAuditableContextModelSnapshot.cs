@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Auditable.Persistence.Migrations
 {
-    [DbContext(typeof(ZetAuditableContext))]
+    [DbContext(typeof(CustomAuditableContext))]
     partial class ZetAuditableContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

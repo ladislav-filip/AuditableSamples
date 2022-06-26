@@ -12,15 +12,15 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Auditable.Persistence;
 
-public class ZetAuditableContextFactory : IDesignTimeDbContextFactory<ZetAuditableContext>
+public class AuditableContextFactory : IDesignTimeDbContextFactory<CustomAuditableContext>
 {
-    public ZetAuditableContext CreateDbContext(string[] args)
+    public CustomAuditableContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<ZetAuditableContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<CustomAuditableContext>();
         optionsBuilder.UseMySql(
             connectionString: "server=dockerhost;port=33060;database=ZetAuditable;uid=root;password=lok",
             serverVersion: ServerVersion.Create(new Version(8, 0, 21), ServerType.MySql));
 
-        return new ZetAuditableContext(optionsBuilder.Options);
+        return new CustomAuditableContext(optionsBuilder.Options);
     }
 }
