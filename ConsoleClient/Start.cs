@@ -26,14 +26,19 @@ public class Start
 
         // AddNew();
 
-        var person = _context.Persons.Include(i => i.Country).First();
-        person.Name = "Pepa";
-        person.Country.Name = "Cesko";
+        Update();
 
         _context.SaveChanges();
 
         _logger.LogInformation("Finnish");
         Console.ReadKey();
+    }
+
+    private void Update()
+    {
+        var person = _context.Persons.Include(i => i.Country).First();
+        person.Name = "Pepa z depa 3";
+        person.Country.Name = "Cesko";
     }
 
     private void AddNew()
