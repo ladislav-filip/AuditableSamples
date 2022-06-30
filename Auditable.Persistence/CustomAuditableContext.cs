@@ -51,6 +51,7 @@ public class CustomAuditableContext : DbContext, IAuditableContext
         
         entries.ForEach(entry =>
         {
+            var partId = Guid.NewGuid().ToString("N");
             var tableName = entry.Entity.GetType().Name;
             foreach (var prop in entry.Properties)
             {
@@ -59,6 +60,7 @@ public class CustomAuditableContext : DbContext, IAuditableContext
                 var audit = new AuditLog
                 {
                     Id = Guid.NewGuid().ToString("N"),
+                    PartialId = partId,
                     TableName = tableName,
                     ColumnName = propName,
                     DateChanged = dateChanged,

@@ -12,6 +12,8 @@ public class AuditLog
 {
     public string Id { get; set; }
 
+    public string PartialId { get; set; }
+
     public string? EventName { get; set; }
 
     public string? TableName { get; set; }

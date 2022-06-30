@@ -24,7 +24,7 @@ public class Start
     {
         _logger.LogInformation("Run...");
 
-        // AddNew();
+        AddNew();
 
         Update();
 
@@ -37,7 +37,7 @@ public class Start
     private void Update()
     {
         var person = _context.Persons.Include(i => i.Country).First();
-        person.Name = "Pepa z depa 3";
+        person.Name = "Pepa z depa 3i oprava";
         person.Country.Name = "Cesko";
     }
 
@@ -45,8 +45,8 @@ public class Start
     {
         var person = new Person
         {
-            Name = "Petr", Surname = "Novak",
-            Country = new Country { Code = "cz", Name = "Czech" }
+            Name = "Petr", Surname = "Brznak",
+            Country = new Country { Code = "pl", Name = "Poland" }
         };
         _context.Persons.Add(person);
     }
