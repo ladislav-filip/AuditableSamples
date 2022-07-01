@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -16,23 +17,22 @@ namespace Auditable.Persistence.Migrations
                 name: "AuditEntries",
                 columns: table => new
                 {
-                    CustomAuditEntryId = table.Column<long>(type: "bigint", nullable: false)
+                    AuditEntryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    TableName = table.Column<string>(type: "longtext", nullable: true)
+                    EntitySetName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StateName = table.Column<string>(type: "longtext", nullable: false)
+                    EntityTypeName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     State = table.Column<int>(type: "int", nullable: false),
-                    ColumnName = table.Column<string>(type: "longtext", nullable: false)
+                    StateName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NewValue = table.Column<string>(type: "longtext", nullable: true)
+                    CreatedBy = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    OldValue = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuditEntries", x => x.CustomAuditEntryId);
+                    table.PrimaryKey("PK_AuditEntries", x => x.AuditEntryID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -50,6 +50,34 @@ namespace Auditable.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Country", x => x.CountryId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "AuditEntryProperty",
+                columns: table => new
+                {
+                    AuditEntryPropertyID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    AuditEntryID = table.Column<int>(type: "int", nullable: false),
+                    RelationName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PropertyName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    OldValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NewValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditEntryProperty", x => x.AuditEntryPropertyID);
+                    table.ForeignKey(
+                        name: "FK_AuditEntryProperty_AuditEntries_AuditEntryID",
+                        column: x => x.AuditEntryID,
+                        principalTable: "AuditEntries",
+                        principalColumn: "AuditEntryID",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -78,6 +106,11 @@ namespace Auditable.Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditEntryProperty_AuditEntryID",
+                table: "AuditEntryProperty",
+                column: "AuditEntryID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Persons_CountryId",
                 table: "Persons",
                 column: "CountryId");
@@ -86,10 +119,13 @@ namespace Auditable.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuditEntries");
+                name: "AuditEntryProperty");
 
             migrationBuilder.DropTable(
                 name: "Persons");
+
+            migrationBuilder.DropTable(
+                name: "AuditEntries");
 
             migrationBuilder.DropTable(
                 name: "Country");

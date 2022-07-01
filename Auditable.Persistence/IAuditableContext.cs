@@ -12,6 +12,8 @@ namespace Auditable.Persistence;
 public interface IAuditableContext
 {
     public DbSet<Person> Persons { get; set; }
+    
+    public DbSet<SecretData> SecretDatas { get; set; }
 
     int SaveChanges();
 }

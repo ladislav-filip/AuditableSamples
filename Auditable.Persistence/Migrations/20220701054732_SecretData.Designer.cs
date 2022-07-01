@@ -3,6 +3,7 @@ using System;
 using Auditable.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auditable.Persistence.Migrations
 {
     [DbContext(typeof(ZetAuditableContext))]
-    partial class ZetAuditableContextModelSnapshot : ModelSnapshot
+    [Migration("20220701054732_SecretData")]
+    partial class SecretData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

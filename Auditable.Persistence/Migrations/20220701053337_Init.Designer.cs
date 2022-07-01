@@ -3,6 +3,7 @@ using System;
 using Auditable.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auditable.Persistence.Migrations
 {
     [DbContext(typeof(ZetAuditableContext))]
-    partial class ZetAuditableContextModelSnapshot : ModelSnapshot
+    [Migration("20220701053337_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,23 +62,6 @@ namespace Auditable.Persistence.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Persons");
-                });
-
-            modelBuilder.Entity("Auditable.Domain.SecretData", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SecretDatas");
                 });
 
             modelBuilder.Entity("Z.EntityFramework.Plus.AuditEntry", b =>

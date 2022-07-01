@@ -17,51 +17,39 @@ public class ZetAuditableContext : DbContext, IAuditableContext
     static ZetAuditableContext()
     {
         AuditManager.DefaultConfiguration.AutoSavePreAction = (context, audit) =>
-            (context as ZetAuditableContext)?.AuditEntries.AddRange(ReadEntries(audit.Entries));
+            (context as ZetAuditableContext)?.AuditEntries.AddRange(audit.Entries);
     }
-
-    private static IEnumerable<CustomAuditEntry> ReadEntries(IEnumerable<AuditEntry> auditEntries)
-    {
-        return auditEntries.SelectMany(entry => entry.Properties.Select(property => new CustomAuditEntry
-        {
-            TableName = entry.EntitySetName,
-            State = (int)entry.State,
-            StateName = entry.StateName,
-            ColumnName = property.PropertyName,
-            RelationName = property.RelationName,
-            NewValue = property.NewValue?.ToString(),
-            OldValue = property.OldValue?.ToString(),
-            DateCreated = DateTime.Now,
-            CreatedBy = entry.CreatedBy
-        }));
-    }
-
-    public ZetAuditableContext(DbContextOptions<ZetAuditableContext> options) : base(options)
-    {
-    }
-
+    
     public DbSet<Person> Persons { get; set; }
+    public DbSet<AuditEntry> AuditEntries { get; set; }
+
+    public DbSet<SecretData> SecretDatas { get; set; }
+
+    public ZetAuditableContext(DbContextOptions<ZetAuditableContext> options) : base(options) { }
     
-    public DbSet<CustomAuditEntry> AuditEntries { get; set; }
-    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // 
+    }
+
+
     public override int SaveChanges()
     {
         var audit = new Audit();
-        audit.Configuration.AuditEntryFactory = args => new AuditEntry
-        {
-            CreatedBy = "ja"
-        };
-        
+        // audit.Configuration.Exclude<SecretData>();
+        // audit.Configuration.Format<SecretData>(p => p.Text, _ => "*****");
         audit.PreSaveChanges(this);
         var rowAffecteds = base.SaveChanges();
         audit.PostSaveChanges();
 
-        if (audit.Configuration.AutoSavePreAction != null)
+        if (audit.Configuration.AutoSavePreAction == null)
         {
-            audit.Configuration.AutoSavePreAction(this, audit);
-            base.SaveChanges();
+            return rowAffecteds;
         }
 
+        audit.Configuration.AutoSavePreAction(this, audit);
+        base.SaveChanges();
         return rowAffecteds;
     }
+
 }

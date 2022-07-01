@@ -18,7 +18,7 @@ public class ZetAuditableContextFactory : IDesignTimeDbContextFactory<ZetAuditab
     {
         var optionsBuilder = new DbContextOptionsBuilder<ZetAuditableContext>();
         optionsBuilder.UseMySql(
-            connectionString: "server=dockerhost;port=33060;database=ZetAuditable;uid=root;password=lok",
+            connectionString: "server=dockerhost;port=33060;database=auditable;uid=root;password=lok",
             serverVersion: ServerVersion.Create(new Version(8, 0, 21), ServerType.MySql));
 
         return new ZetAuditableContext(optionsBuilder.Options);
